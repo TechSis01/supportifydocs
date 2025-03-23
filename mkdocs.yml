@@ -5,3 +5,8 @@ plugins:
 nav:
   - Home: index.md
   - API Reference: api-reference.md
+extra_javascript:
+  - js/swagger-ui-bundle.js
+  - js/swagger-ui-standalone-preset.js
+extra_css:
+  - css/swagger-ui.css
