@@ -1,12 +1,8 @@
 site_name: Supportify
+site_url: https://techsis01.github.io/supportifydocs/
 plugins:
 - search
 - swagger-ui-tag
 nav:
   - Home: index.md
   - API Reference: api-reference.md
-extra_javascript:
-  - js/swagger-ui-bundle.js
-  - js/swagger-ui-standalone-preset.js
-extra_css:
-  - css/swagger-ui.css

@@ -1,3 +1,3 @@
 # API Reference
 
-<swagger-ui src="openapiFile.yaml" />
+<swagger-ui src="openapi.yaml" />
