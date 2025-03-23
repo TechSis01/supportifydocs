@@ -1,0 +1,272 @@
+openapi: '3.0.2'
+info:
+  title: "User Support API"
+  description: |
+    ## Overview
+      The **User Support API** enables users to submit feedback or report issues to the organization via a contact form. When a user submits a ticket with the details (name,email,subject and message), a support ticket is created. 
+      >
+      Admin users can manage these tickets through an admin dashboard,where they can: 
+      - View all support tickets.
+      - Update ticket details
+      - Delete resolved or outdated tickets.
+  version: "1.0"
+  license:
+    name: "Supportify License 1.0"
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
+servers:
+- url: https://jogmg-backend.onrender.com
+paths: 
+  /users:
+    post:
+      tags:
+      - User Tickets
+      summary: "Create a new ticket"
+      description: "This endpoint allows users to submit their details (name, email, subject, and message) via a contact form. Upon submission, a new support ticket is automatically created in the system. Admins can then manage these tickets through the admin dashboard"
+      operationId: CreateUserSupportTicket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requestBody'
+      responses:
+        201:
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        
+        
+    get:
+      tags:
+      - User Tickets
+      summary: "Get all user support tickets"
+      description: " This endpoint retrieves all support tickets created by users who have submitted feedback via the contact form."
+      operationId: AllUserSupportTickets
+      responses:
+        200:
+          description: Users retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: 
+                    type: boolean
+                    example: false
+                  statusCode: 
+                    type: number
+                    example: 200
+                  message:
+                      type: string
+                      example: "Users retrieved successfully"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Users'
+  /users/{id}:
+    get:
+      tags:
+      - User Tickets
+      summary: "Get the ticket details for a specific user"
+      description: "This endpoint retrieves the details of a support ticket created by a specific user."
+      operationId: SpecificUserSupportTicket
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        200:
+          description: 'User retrieved successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                    example: false
+                  statusCode:
+                    type: number
+                    example: 200
+                  message:
+                    type: string
+                    example: "User retrieved successfully"
+                  data:
+                    $ref: "#/components/schemas/Users"
+        404:
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+    put:
+      tags:
+      - User Tickets
+      summary: "Update details of a ticket "
+      description: "Given that a user has created a ticket. The admin can update details of this ticket based on the solution that has been taken on it. Only fields required to be updated should be sent in the reqeust body."
+      operationId: updateSpecificUserTicket
+      parameters:
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        description: "Only include the properties that need to be updated in the request body."
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/requestBody'
+      responses:
+        200:
+          description: "User updated successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                    example: false
+                  statusCode:
+                    type: number
+                    example: 200
+                  message: 
+                    type: string
+                    example: "User updated successsfully"
+                  data:
+                    $ref: "#/components/schemas/Users"
+        404:
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+    delete:
+      tags:
+      - User Tickets
+      summary: "Delete a ticket"
+      description: "Admin users can delete a specific user support ticket if the ticket has been resolved or is deemed invalid. "
+      operationId: deleteSpecficUser
+      parameters:
+      - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: "User deleted successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: boolean
+                    example: false
+                  statusCode:
+                    type: number
+                    example: 200
+                  message:
+                    type: string
+                    example: "User deleted successfully"
+        404:
+          description: "User not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorMessage'
+                
+    
+              
+            
+      
+      
+      
+    
+    
+components:
+  parameters:
+    id:
+      name: id
+      in: path
+      description: "The user's unique ID"
+      required: true
+      schema:
+        type: string
+        example: "23423534534634ed"
+  schemas:
+    errorMessage:
+      type: object
+      properties:
+        error:
+          type: string
+          example: true
+        statusCode:
+          type: number
+          example: 404
+        message:
+          type: string
+          example: "User not found"
+    requestBody:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John
+        email:
+          type: string
+          example: johndoe@gmail.com
+        subject:
+          type: string
+          example: ticket subject
+        message:
+          type: string
+          example: support ticket by user
+    Users:
+      type: object
+      properties: 
+            id:
+              type: string
+              example: 34232532534543
+            name:
+             type: string
+             example: John
+            email:
+              type: string
+              example: johndoe@gmail.com
+            subject: 
+              type: string
+              example: Login information not working
+            message: 
+              type: string
+              example: Please rectify
+            createdAt: 
+              type: string
+              example: 2025-03-03T22:23:00.236Z
+            updatedAt:
+              type: string
+              example: 2025-03-03T22:23:00.236Z
+            __v: 
+              type: number
+              description: "The serial number of the ticket"
+              example: 5
+            
+            
+            
+              
+             
+            
+          
+        
+               
+    
+                
+    
+tags:
+ - name: User Tickets
+   description: Get User Support Ticket Details
+ 
+         
+            
+        
+              
+          
+
+ 
+
+  
+   

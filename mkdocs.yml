@@ -1,0 +1,7 @@
+site_name: Supportify
+plugins:
+- search
+- swagger-ui-tag
+nav:
+  - Home: index.md
+  - API Reference: api-reference.md
